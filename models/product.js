@@ -9,7 +9,7 @@ module.exports = class productModel{
      * @return {Array}         [Array of products]
      */
 
-     async getProducts(options = {}){
+     async getProducts(){
 
         try{
 
