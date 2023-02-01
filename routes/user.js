@@ -9,7 +9,9 @@ module.exports = (app) => {
     router.get('/:userId', async(req, res, next) => {
 
         try{
-            
+
+        }catch(err){
+            throw new Error(err)
         }
     })
 
