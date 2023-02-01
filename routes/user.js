@@ -6,13 +6,14 @@ module.exports = (app) => {
 
     app.use('/users', router);
 
-    router.get('/:userId', async(req, res, next) => {
+    //returns user based on its id
+    router.get('/:userId', async (req, res, next) => {
 
-        try{
+    });
 
-        }catch(err){
-            throw new Error(err)
-        }
-    })
+    //updates user based on its id
+    router.put('/:userId', async (req, res, next) => {
+
+    });
 
 }
