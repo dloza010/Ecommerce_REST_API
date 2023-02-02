@@ -3,7 +3,6 @@ const pgb = require('pg-promise')({capSQL: true})
 
 module.exports = class userModel{
 
-
     /**
      * Creates a new user
      * @param {Object} data [user data]

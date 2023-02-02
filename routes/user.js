@@ -15,7 +15,7 @@ module.exports = (app) => {
 
             const userId = req.params;
 
-            const response = userServiceInstance.get({id: userId});
+            const response = await userServiceInstance.get({id: userId});
             res.status(200).send(response);
 
         }catch(err){
