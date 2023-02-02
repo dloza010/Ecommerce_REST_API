@@ -15,11 +15,10 @@ module.exports = class userModel{
         try{
 
             //Generate SQL statement
-            const statement = `INSERT INTO users (id, first_name, last_name, username,
-            password, address) VALUES($1, $2, $3, $4, $5, $6) RETURNING *`;
+            const statement = `INSERT INTO users (userid, username, password, address,
+            email, name) VALUES($1, $2, $3, $4, $5, $6)`;
             
-            const {id, first_name, last_name, username, 
-            password, address} = data;
+            const {userid, username, password, address, email, name} = data;
             const values = [id, first_name, last_name, username, 
                 password, address];
 
@@ -81,7 +80,7 @@ module.exports = class userModel{
         try{
 
             //Generate SQL statement
-            const statement = `SELECT * FROM users WHERE id = $1`;
+            const statement = `SELECT userid, name, email FROM users WHERE id = $1`;
             const values = [id];
             
             //Execute SQL statement
