@@ -11,6 +11,7 @@ module.exports = (app, passport) => {
     router.post('/register', async(req, res, next) => {
         try{
             
+            //data = [userid, username, password, address, email, name]
             const data = req.body;
             
             const response = await authServiceInstance.create(data);
@@ -19,7 +20,7 @@ module.exports = (app, passport) => {
         }catch(err){
             throw new Error(err)
         }
-    })
+    });
 
     router.post('/login', passport.authenticate('local'), async (req, res, next) => {
         try{
@@ -32,6 +33,6 @@ module.exports = (app, passport) => {
         }catch(err){
             throw new Error(err)
         }
-    })
+    });
     
 }

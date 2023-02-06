@@ -1,18 +1,19 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const app = express()
-const PORT = process.env.PORT || 3000
+const express = require('express');
+const app = express();
 
+const loaders = require('./loaders');
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-    extended: true
-}))
+const { PORT } = require('./config');
 
-app.get('/', (req, res) => {
-    res.send('Hello World')
-})
+async function startServer() {
 
-app.listen(PORT, () => {
-    console.log(`App listening on port: ${PORT}`)
-})
+  // Init application loaders
+  loaders(app);
+
+  // Start server
+  app.listen(PORT, () => {
+    console.log(`Server listening on PORT ${PORT}`);
+  })
+}
+
+startServer();

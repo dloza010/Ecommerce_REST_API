@@ -1,14 +1,15 @@
 const createError = require('http-errors')
 const productModel = require('../models/product')
-
 const productModelInstance = new productModel()
 
 module.exports = class productService{
 
-    async list(){
+    async list(options){
 
         try{
-            const products = productModelInstance.getProducts();
+
+            //get all products from product table (catalog)
+            const products = await productModelInstance.getProducts(options);
             return products;
         }catch(err){
             throw new Error(err)
@@ -18,11 +19,11 @@ module.exports = class productService{
 
     async get(id){
 
-        const id = id;
 
         try{
 
-            const product = productModelInstance.getById(id)
+            //get product based on product ID
+            const product = await productModelInstance.getById(id)
             
             if(!product){
                 return createError(404, 'Product not found')
@@ -30,7 +31,7 @@ module.exports = class productService{
             return product;
 
         }catch(err){
-            throw new Error(err);
+            throw err;
         }
     }
 }

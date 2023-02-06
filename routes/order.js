@@ -29,7 +29,7 @@ module.exports = (app, passport) => {
 
             const orderId = req.params
 
-            const response = await orderServiceInstance.getById(orderId)
+            const response = await orderServiceInstance.get(orderId)
             res.status(200).send(response)
 
         }catch(err){

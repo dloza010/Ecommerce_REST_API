@@ -18,8 +18,7 @@ module.exports = class userModel{
             email, name) VALUES($1, $2, $3, $4, $5, $6)`;
             
             const {userid, username, password, address, email, name} = data;
-            const values = [id, first_name, last_name, username, 
-                password, address];
+            const values = [userid, username, password, address, email, name];
 
             //Execute SQL statement
             const result = await db.query(statement, values);
@@ -47,12 +46,11 @@ module.exports = class userModel{
         try{
 
             //Generate SQL statement
-        const statement = `UPDATE users SET first_name = $1,
-        last_name = $2, username = $3, password = $4, address = %5
-        WHERE id = $6`;
+        const statement = `UPDATE users SET password = $1, address = $2,
+        email = $3, name = $4 WHERE id = $6`;
 
-        const {first_name, last_name, username, password, address, id} = data;
-        const values = [first_name, last_name, username, password, address, id];
+        const {password, address, email, name} = data;
+        const values = [password, address, email, name];
 
         //Execute SQL statement
         const results = await db.query(statement, values);
@@ -109,6 +107,34 @@ module.exports = class userModel{
             //Generate SQL statement
             const statement = `SELECT * FROM users WHERE email = $1`;
             const values = [email];
+
+            //Execute SQL statement
+            const result = await db.query(statement, values);
+            if(result.rows.length){
+                return result.rows[0]
+            }
+
+            return null;
+            
+        }catch(err){
+            throw new Error(err);
+        }
+        
+    }
+
+    /**
+     * Finds a user record by username
+     * @param {String} username [username]
+     * @return {Object|Null} [user record]
+     */
+
+     async findOneByUsername(username){
+
+        try{
+
+            //Generate SQL statement
+            const statement = `SELECT * FROM users WHERE username = $1`;
+            const values = [username];
 
             //Execute SQL statement
             const result = await db.query(statement, values);

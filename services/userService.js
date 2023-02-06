@@ -1,4 +1,4 @@
-const createError = requie('http-errors')
+const createError = require('http-errors')
 const userModel = require('../models/user');
 const userModelInstance =  new userModel();
 
@@ -13,6 +13,8 @@ module.exports = class userService{
 
             //check if user exists
             const user = userModelInstance.findOneById(id);
+
+            //if user exits, return error
             if(!user){
                 return createError(404, 'User record not found')
             }
@@ -27,8 +29,11 @@ module.exports = class userService{
     async update(data){
 
         try{
-        
+            
+
             const user = await userModelInstance.update(data);
+            
+            //check if user wasnt found
             if(!user){
                 return createError(404, 'User record not found');
             }

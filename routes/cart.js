@@ -40,10 +40,10 @@ module.exports = (app, passport) =>{
     router.post('/mine/items', async (req, res, next) => {
         try{
 
-            const id = req.user;
+            const userid = req.user;
             const data = req.body;
 
-            const response = await cartServiceInstance.addItem(id, data)
+            const response = await cartServiceInstance.addItem(userid, data)
             res.status(200).send(response)
 
         }catch(err){

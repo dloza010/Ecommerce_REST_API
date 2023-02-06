@@ -73,7 +73,7 @@ module.exports = class orderModel{
      * @param {String} id [userid]
      * @returns {Object|null} [Order records]
      */
-    async getByUserId(id){
+    static async getByUserId(id){
 
         try{
 
@@ -99,7 +99,7 @@ module.exports = class orderModel{
      * @param {String} id [orderid]
      * @returns {Object|null} [Order record]
      */
-    async getByOrderId(orderId){
+    static async getByOrderId(orderId){
 
         try{
 

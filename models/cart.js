@@ -8,6 +8,7 @@ module.exports = class cartModel{
         this.modified = moment.utc().toISOString();
         this.converted = data.converted || null;
         this.isActive = data.isActive || true;
+        this.items = data.items || [];
     }
 
     /**
@@ -43,7 +44,7 @@ module.exports = class cartModel{
      * @return {Object|null} [Record of cart]
      */
 
-    async findByUser(userId) {
+    static async findByUser(userId) {
         
         try{
 
@@ -71,7 +72,7 @@ module.exports = class cartModel{
      * @return {Object|null}  [record of cart]
      */
 
-    async loadByCartId(cartId){
+    static async loadByCartId(cartId){
 
         try{
 

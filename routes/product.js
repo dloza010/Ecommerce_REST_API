@@ -12,11 +12,13 @@ module.exports = (app, passport) => {
     app.get('/', async (req, res, next) => {
 
         try{
-            const products = await productServiceInstance.list();
+
+            const queryParams = req.query;
+            const products = await productServiceInstance.list(queryParams);
             res.status(200).send(products);
 
         }catch(err){
-            next(err)
+            throw err
         }
     });
 
@@ -30,7 +32,7 @@ module.exports = (app, passport) => {
             res.status(200).send(product)
 
         }catch(err){
-            throw new Error(err)
+            throw err
         }
     })
 }
