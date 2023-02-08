@@ -1,38 +1,32 @@
-const express = require('express')
-const router = express.Router()
-const productService = require('../services/productService')
+const express = require('express');
+const router = express.Router();
+const ProductService = require('../services/productService');
 
-const productServiceInstance = new productService()
+const productServiceInstance = new ProductService()
 
-module.exports = (app, passport) => {
+module.exports = (app,passport) => {
 
-    app.use('/product', router);
+    app.use('/products', router);
 
-    //return list of all products
-    app.get('/', async (req, res, next) => {
-
+    router.get('/', async(req, res, next) => {
         try{
 
-            const queryParams = req.query;
-            const products = await productServiceInstance.list(queryParams);
+            const products = await productServiceInstance.list();
             res.status(200).send(products);
 
         }catch(err){
-            throw err
+            throw err;
         }
     });
 
-    //returns product based on its id
-    app.get('/:productId', async (req, res, next) => {
-        const id = req.params;
-
+    router.get('/:productid', async(req, res, next) => {
         try{
+            const {productid} = req.params;
+            const product = await productServiceInstance.get(productid);
 
-            const product = await productServiceInstance.get(id);
-            res.status(200).send(product)
-
+            res.status(200).send(product);
         }catch(err){
-            throw err
+            throw err;
         }
     })
 }

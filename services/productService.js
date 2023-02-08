@@ -1,37 +1,40 @@
-const createError = require('http-errors')
-const productModel = require('../models/product')
-const productModelInstance = new productModel()
+const createError = require('http-errors');
+const ProductModel = require('../models/product');
+const ProductModelInstance = new ProductModel();
 
-module.exports = class productService{
+module.exports = class ProductService {
 
-    async list(options){
+  async list() {
 
-        try{
+    try {
+      // Load products
+      const products = await ProductModelInstance.find();
 
-            //get all products from product table (catalog)
-            const products = await productModelInstance.getProducts(options);
-            return products;
-        }catch(err){
-            throw new Error(err)
-        }
+      return products;
 
+    } catch(err) {
+      throw err;
     }
 
-    async get(id){
+  };
 
+  async get(id) {
 
-        try{
+    try {
+      // Check if product exists
+      const product = await ProductModelInstance.findOne(id);
 
-            //get product based on product ID
-            const product = await productModelInstance.getById(id)
-            
-            if(!product){
-                return createError(404, 'Product not found')
-            }
-            return product;
+      // If no product found, reject
+      if (!product) {
+        throw createError(404, 'Product not found');
+      }
 
-        }catch(err){
-            throw err;
-        }
+      return product;
+
+    } catch(err) {
+      throw err;
     }
+
+  };
+
 }

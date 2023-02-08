@@ -1,65 +1,55 @@
-const db = require('../db')
-const pgb = require('pg-promise')({capSQL: true})
+const db = require('../db');
 
-module.exports = class productModel{
+module.exports = class ProductModel {
 
     /**
-     * List all product
-     * @param {Object} options [Query options]
-     * @return {Array}         [Array of products]
+     * List products
+     * @param  {Object} options [Query options]
+     * @return {Object}          [Array of products]
      */
+    async find() {
+        try {
 
-     async getProducts(){
-
-        try{
-
-            //Generate SQL statement
-        const statement =  `SELECT * FROM products`;
+        const statement = `SELECT *
+                            FROM product`;
         const values = [];
+    
+        const result = await db.query(statement, values);
 
-        //Execute SQL statement
-        const results = await db.query(statement);
-
-        if (results.rows?.length){
-            return results.rows;
+        if (result.rows?.length) {
+            return result.rows;
         }
 
         return [];
 
-        }catch(err){
-            throw err;
+        } catch(err) {
+        throw err;
         }
-        
     }
 
     /**
-     * List product by id
-     * @param {Object}          id [Product id]
-     * @return {Object|Null}       [Product record]
+     * Retrieve product by ID
+     * @param  {Object}      id [Product ID]
+     * @return {Object|null}    [Product record]
      */
+    async findOne(id) {
+        try {
 
-    async getById(id){
+        const statement = `SELECT *
+                            FROM product
+                            WHERE productid = $1`;
+        const values = [id];
+    
+        const result = await db.query(statement, values);
 
-        try{
+        if (result.rows?.length) {
+            return result.rows[0]
+        }
+    
+        return null;
 
-            //Generate SQL statement
-            const statement = `SELECT * FROM products
-            WHERE productid = $1`
-            const values = id;
-
-            //Execute SQL statement
-            const results = await db.query(statement, values);
-
-            if(results.rows?.length){
-                return results.rows[0];
-            }
-
-            return null;
-
-        }catch(err){
-            throw new Error(err);
+        } catch(err) {
+        throw err;
         }
     }
-
 }
-    

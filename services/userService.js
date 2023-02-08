@@ -1,48 +1,54 @@
-const createError = require('http-errors')
-const userModel = require('../models/user');
-const userModelInstance =  new userModel();
+const createError = require('http-errors');
+const UserModel = require('../models/user');
+const user = require('../routes/user');
+const UserModelInstance = new UserModel();
 
-module.exports = class userService{
+module.exports = class UserService {
 
-    
-    async get(data){
 
-        const id = data;
+  async list(){
 
-        try{
+    try{
 
-            //check if user exists
-            const user = userModelInstance.findOneById(id);
+      const users = await UserModelInstance.find();
+      return users; 
 
-            //if user exits, return error
-            if(!user){
-                return createError(404, 'User record not found')
-            }
+    }catch(err) {
+      throw err;
+    }
+  }
 
-            return user;
+  async get(id) {
 
-        }catch(err){
-            throw new Error(err);
-        }
+    try {
+      // Check if user already exists
+      const user = await UserModelInstance.findOneById(id);
+      
+      // If user doesn't exist, reject
+      if (!user) {
+        throw createError(404, 'User record not found');
+      }
+
+      return user;
+
+    } catch(err) {
+      throw err;
     }
 
-    async update(data){
+  };
 
-        try{
-            
+  async update(data) {
 
-            const user = await userModelInstance.update(data);
-            
-            //check if user wasnt found
-            if(!user){
-                return createError(404, 'User record not found');
-            }
+    try {
+      //Update user based on new data
+      const updatedUser = await UserModelInstance.update(data);
+      
+      return updatedUser;
 
-            return user;
-
-        }catch(err){
-            throw new Error(err);
-        }
+    } catch(err) {
+      throw err;
     }
-    
+
+  };
+
 }

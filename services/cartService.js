@@ -53,7 +53,7 @@ module.exports = class cartService{
         try{
 
             //Update cartItem by line id
-            const updatedItem = await cartItemModel.delete(cartItemId, data)
+            const updatedItem = await cartItemModel.update(cartItemId, data)
 
             return updatedItem;
 
