@@ -91,7 +91,7 @@ module.exports = class UserModel {
      */
     async findOneByEmail(email) {
         try {
-
+    
         // Generate SQL statement
         const statement = `SELECT *
                             FROM users
@@ -137,6 +137,28 @@ module.exports = class UserModel {
 
         } catch(err) {
         throw err;
+        }
+    };
+
+    async findOneByUsername(username){
+        
+        try{
+
+            //Generate SQL statement
+            const statement = `SELECT * FROM users WHERE username = $1`;
+            const values = [username];
+
+            //Execute SQL statement
+            const result = await db.query(statement, values);
+
+            if(result.rows?.length){
+                return result.rows[0]
+            };
+
+            return result;
+
+        }catch(err){
+            throw err
         }
     };
 }

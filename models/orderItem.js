@@ -12,32 +12,32 @@ module.exports = class orderItemModel{
         this.productId = data.id;
         this.qty = data.qty || 1;
         this.orderId = data.orderId || null;
-      }
+    }
     
-      /**
-       * Creates a new order item
-       * @param  {Object}      data [Order item data]
-       * @return {Object|null}      [Created order item]
-       */
-      static async create(data) {
-        try {
+    /**
+    * Creates a new order item
+    * @param  {Object}      data [Order item data]
+    * @return {Object|null}      [Created order item]
+    */
+    static async create(data) {
+      try {
     
-          // Generate SQL statement - using helper for dynamic parameter injection
-          const statement = pgp.helpers.insert(data, null, 'orderItems') + 'RETURNING *';
+        // Generate SQL statement - using helper for dynamic parameter injection
+        const statement = pgp.helpers.insert(data, null, 'orderItems') + 'RETURNING *';
      
-          // Execute SQL statment
-          const result = await db.query(statement);
+        // Execute SQL statment
+        const result = await db.query(statement);
     
-          if (result.rows?.length) {
-            return result.rows[0];
-          }
-    
-          return null;
-    
-        } catch(err) {
-          throw new Error(err);
+        if (result.rows?.length) {
+          return result.rows[0];
         }
+    
+        return null;
+    
+      }catch(err) {
+          throw new Error(err);
       }
+    };
     
       /**
        * Retrieve order items for an order
@@ -69,6 +69,6 @@ module.exports = class orderItemModel{
         } catch(err) {
           throw new Error(err);
         }
-      }
+      };
     
 }

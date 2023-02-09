@@ -9,7 +9,7 @@ module.exports = class cartModel{
         this.converted = data.converted || null;
         this.isActive = data.isActive || true;
         this.items = data.items || [];
-    }
+    };
 
     /**
      * Creates a new cart for a user
@@ -19,24 +19,24 @@ module.exports = class cartModel{
     async create(userId) {
         try {
 
-        const data = { userId, ...this}
+            const data = { userId, ...this}
 
-        // Generate SQL statement - using helper for dynamic parameter injection
-        const statement = pgp.helpers.insert(data, null, 'carts') + 'RETURNING *';
-    
-        // Execute SQL statment
-        const result = await db.query(statement);
+            // Generate SQL statement - using helper for dynamic parameter injection
+            const statement = pgp.helpers.insert(data, null, 'carts') + 'RETURNING *';
+        
+            // Execute SQL statment
+            const result = await db.query(statement);
 
-        if (result.rows?.length) {
-            return result.rows[0];
-        }
+            if (result.rows?.length) {
+                return result.rows[0];
+            }
 
-        return null;
+            return null;
 
         } catch(err) {
-        throw new Error(err);
+            throw new Error(err);
         }
-    }
+    };
 
     /**
      * Loads a cart by userID
@@ -64,7 +64,7 @@ module.exports = class cartModel{
         }catch(err){
             throw new Error(err);
         }
-    }
+    };
 
     /**
      * Loads a cart by cartId
@@ -92,5 +92,5 @@ module.exports = class cartModel{
         }catch(err){
             throw new Error(err);
         }
-    }
+    };
 }

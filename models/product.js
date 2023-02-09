@@ -51,5 +51,5 @@ module.exports = class ProductModel {
         } catch(err) {
         throw err;
         }
-    }
+    };
 }

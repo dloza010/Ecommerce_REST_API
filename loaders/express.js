@@ -12,7 +12,7 @@ module.exports = (app) => {
   app.use(bodyParser.json());
 
   // Parses urlencoded bodies
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.urlencoded({ extended: false }));
 
   // 
   app.set('trust proxy', 1);

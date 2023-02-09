@@ -1,38 +1,62 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-const authService = require('../services/authService')
-const authServiceInstance = new authService();
+// Instantiate Services
+const AuthService = require('../services/AuthService');
+const AuthServiceInstance = new AuthService();
 
 module.exports = (app, passport) => {
 
-    app.use('/auth', router)
+    app.use('/auth', router);
 
-    router.post('/register', async(req, res, next) => {
-        try{
-            
-            //data = [userid, username, password, address, email, name]
+    router.get('/l', (req, res, next) => {
+        res.status(200).send('User has been logged out.');
+    });
+
+    // Registration Endpoint
+    router.post('/register', async (req, res, next) => {
+  
+        try {
             const data = req.body;
-            
-            const response = await authServiceInstance.create(data);
-            res.status(200).send(response)
-
-        }catch(err){
-            throw new Error(err)
+      
+            const response = await AuthServiceInstance.register(data);
+            res.status(200).send(response);
+        } catch(err) {
+        next(err);
         }
+  
     });
 
-    router.post('/login', passport.authenticate('local'), async (req, res, next) => {
+    //Current user
+    router.get('/', (req, res, next) => {
+        const user = req.user ? req.user : 'No user logged on at the moment.';
+        res.status(200).send(user);
+    })
+  
+    // Login Endpoint
+    router.post('/login', passport.authenticate('local'), async(req, res, next) =>{
         try{
-
-            const {username, password} = req.body;
-
-            const response = await authServiceInstance.login(username, password);
-            res.status(200).send(response)
-
+            const account = await AuthServiceInstance.login(req.body);
+            // console.log(account);
+            res.status(200).json({
+                name: account.name,
+                username: account.username,
+                email: account.email,
+                address: account.address,
+                status: 'Logged on!',
+                passport: req.session.passport
+            });
         }catch(err){
-            throw new Error(err)
+            throw err;
         }
     });
-    
+
+    //logout endpoint
+    router.post('/logout', function(req, res, next) {
+        req.logout(function(err) {
+          if (err) { return next(err); }
+          res.redirect('/auth/l');
+        });
+    });
+
 }

@@ -16,7 +16,7 @@ module.exports = async (app) => {
   await routeLoader(app, passport);
 
   // Load Swagger
-//   await swaggerLoader(app);
+  // await swaggerLoader(app);
   
   // Error Handler
   app.use((err, req, res, next) => {

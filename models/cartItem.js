@@ -26,7 +26,7 @@ module.exports = class cartItemMode{
         } catch(err) {
         throw new Error(err);
         }
-    }
+    };
 
     /**
      * Updates existing cart item
@@ -53,7 +53,7 @@ module.exports = class cartItemMode{
         } catch(err) {
         throw new Error(err);
         }
-    }
+    };
 
     /**
      * Retrieve cart items for a cart
@@ -85,7 +85,7 @@ module.exports = class cartItemMode{
         } catch(err) {
         throw new Error(err);
         }
-    }
+    };
 
     /**
      * Deletes a cart line item
@@ -114,7 +114,7 @@ module.exports = class cartItemMode{
         } catch(err) {
         throw new Error(err);
         }
-    }
+    };
 
 
 
