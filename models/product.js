@@ -11,7 +11,7 @@ module.exports = class ProductModel {
         try {
 
         const statement = `SELECT *
-                            FROM product`;
+                            FROM products`;
         const values = [];
     
         const result = await db.query(statement, values);
@@ -36,8 +36,8 @@ module.exports = class ProductModel {
         try {
 
         const statement = `SELECT *
-                            FROM product
-                            WHERE productid = $1`;
+                            FROM products
+                            WHERE id = $1`;
         const values = [id];
     
         const result = await db.query(statement, values);

@@ -10,7 +10,7 @@ module.exports = class orderModel{
         this.status = data.status || 'PENDING';
         this.total = data.total || 0;
         this.userId = data.userId || null;
-    }
+    };
 
     /**
      * create new order record

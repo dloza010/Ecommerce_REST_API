@@ -38,7 +38,7 @@ module.exports = (app) => {
       
       const user = await UserServiceInstance.update({id: userId, ...data});
       res.status(200).json({
-        user,
+        updated_user: user,
         status: "success",
         message: "User has been updated"
       });

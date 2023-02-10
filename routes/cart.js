@@ -14,6 +14,7 @@ module.exports = (app, passport) =>{
             const id = req.user;
 
             const response = await cartServiceInstance.loadCart(id)
+            console.log(response);
             res.status(200).send(response)
 
         }catch(err){
@@ -28,10 +29,11 @@ module.exports = (app, passport) =>{
 
             const id = req.user;
 
-            const response = await cartServiceInstance.create(id)
-            res.status(200).send()
+            const response = await cartServiceInstance.create(id);
+            res.status(200).send(response);
 
         }catch(err){
+            console.log(err);
             throw new Error(err)
         }
     });

@@ -14,7 +14,7 @@ module.exports = class authService{
             
             //if user already in use, retur error
             if (user){
-                return createError(409, 'Email already in use')
+                throw createError(409, 'Email already in use')
             }
 
             return await UserModelInstance.create(data);

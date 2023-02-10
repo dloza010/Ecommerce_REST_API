@@ -4,27 +4,27 @@ const { DB } = require('./config');
 (async () => {
 
     const products = `
-        INSERT INTO product(productid, name, price, description)
+        INSERT INTO products(name, price, description)
         VALUES
-        (1, 'flashlight', 50, 'for your camping needs'),
-        (2, 'backpack', 50, 'for your camping needs'),
-        (3, 'tent', 50, 'for your camping needs'),
-        (4, 'boots', 50, 'for your camping needs'),
-        (5, 'grill', 50, 'for your camping needs'),
-        (7, 'pocket knife', 50, 'for your camping needs'),
-        (8, 'portable gas stove', 50, 'for your camping needs'),
-        (9, 'bike', 50, 'for your camping needs'),
-        (10, 'matches', 50, 'for your camping needs');
-    // `
+        ('flashlight', 24.99, 'for your camping needs'),
+        ('backpack', 30.99, 'for your camping needs'),
+        ('tent', 49.99, 'for your camping needs'),
+        ('boots', 39.99, 'for your camping needs'),
+        ('grill', 49.99, 'for your camping needs'),
+        ('pocket knife', 14.99, 'for your camping needs'),
+        ('portable gas stove', 39.99, 'for your camping needs'),
+        ('bike', 119.99, 'for your camping needs'),
+        ('matches', 4.99, 'for your camping needs');
+    `
 
     const users = `
-        INSERT INTO users(userId, name, username, password, email, address)
+        INSERT INTO users(name, username, password, email, address)
         VALUES
-        (1, 'david', 'dl1', 'password1', 'david@example.com', '123 st road'),
-        (2, 'juan', 'jb1', 'password2', 'juan@example.com', '456 st road'),
-        (3, 'felipe', 'fl1', 'password3', 'felipe@example.com', '234 st road'),
-        (4, 'pablo', 'pb1', 'password4', 'pablo@example.com', '432 st road'),
-        (5, 'cristian', 'cb1', 'password5', 'cristian@example.com', '189 st road');
+        ('david', 'dl1', 'password1', 'david@example.com', '123 st road'),
+        ('juan', 'jb1', 'password2', 'juan@example.com', '456 st road'),
+        ('felipe', 'fl1', 'password3', 'felipe@example.com', '234 st road'),
+        ('pablo', 'pb1', 'password4', 'pablo@example.com', '432 st road'),
+        ('cristian', 'cb1', 'password5', 'cristian@example.com', '189 st road');
     `
 
   try {
@@ -39,7 +39,7 @@ const { DB } = require('./config');
     await db.connect();
 
     // Create tables on database
-    // await db.query(products);
+    await db.query(products);
     await db.query(users);
 
     await db.end();

@@ -1,5 +1,6 @@
 const db = require('../db')
-const pgb = require('pg-promise')({capSQL: true})
+const pgp = require('pg-promise')({capSQL: true})
+const moment = require('moment')
 
 module.exports = class cartModel{
 
@@ -16,14 +17,15 @@ module.exports = class cartModel{
      * @param  {Object}      data [User data]
      * @return {Object|null}      [Created user record]
      */
-    async create(userId) {
+    async create(id) {
         try {
-
-            const data = { userId, ...this}
+            
+            const data = {user_id: id, created: this.created, modified: this.modified,
+            }; 
 
             // Generate SQL statement - using helper for dynamic parameter injection
-            const statement = pgp.helpers.insert(data, null, 'carts') + 'RETURNING *';
-        
+            const statement = pgp.helpers.insert(data, null, 'cart') + 'RETURNING *';
+            // return statement;
             // Execute SQL statment
             const result = await db.query(statement);
 
@@ -31,7 +33,7 @@ module.exports = class cartModel{
                 return result.rows[0];
             }
 
-            return null;
+            return result;
 
         } catch(err) {
             throw new Error(err);

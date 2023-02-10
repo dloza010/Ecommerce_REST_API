@@ -18,9 +18,16 @@ module.exports = (app, passport) => {
   
         try {
             const data = req.body;
-      
+            // console.log(data);
             const response = await AuthServiceInstance.register(data);
-            res.status(200).send(response);
+            res.status(200).json({
+                message: 'New user has been registered!',
+                info: {
+                    name: response.name,
+                    address: response.address,
+                    email: response.email
+                }
+            });
         } catch(err) {
         next(err);
         }
@@ -39,12 +46,11 @@ module.exports = (app, passport) => {
             const account = await AuthServiceInstance.login(req.body);
             // console.log(account);
             res.status(200).json({
-                name: account.name,
-                username: account.username,
-                email: account.email,
-                address: account.address,
-                status: 'Logged on!',
-                passport: req.session.passport
+                message: `Logged on ${account.name}!`,
+                info: {
+                    address: account.address,
+                    email: account.email
+                }
             });
         }catch(err){
             throw err;

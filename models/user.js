@@ -66,7 +66,7 @@ module.exports = class UserModel {
         const {id, ...params}  = data;
 
         // Generate SQL statement 
-        const condition = pgp.as.format('WHERE userid = $1', id);
+        const condition = pgp.as.format('WHERE id = $1', id);
         const statement = pgp.helpers.update(params, null, 'users') + condition;
         
         // Execute SQL statment
@@ -123,7 +123,7 @@ module.exports = class UserModel {
         // Generate SQL statement
         const statement = `SELECT *
                             FROM users
-                            WHERE userid = $1`;
+                            WHERE id = $1`;
         const values = [id];
     
         // Execute SQL statment
