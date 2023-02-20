@@ -1,14 +1,14 @@
-const db = require('../db')
-const pgp = require('pg-promise')({capSQL: true})
-const moment = require('moment')
+const db = require('../db');
+const pgp = require('pg-promise')({capSQL: true});
+const moment = require('moment');
 
 module.exports = class cartModel{
 
     constructor(data = {}){
-        this.created = data.created || moment.utc().toISOString();
         this.modified = moment.utc().toISOString();
-        this.converted = data.converted || null;
-        this.isActive = data.isActive || true;
+        this.created = data.created || moment.utc().toISOString();
+        this.converted = data.converted || false;
+        // this.isActive = data.isActive || true;
         this.items = data.items || [];
     };
 
@@ -18,13 +18,17 @@ module.exports = class cartModel{
      * @return {Object|null}      [Created user record]
      */
     async create(id) {
+        
         try {
             
-            const data = {user_id: id, created: this.created, modified: this.modified,
-            }; 
+            const userid = id;
+            const modified = this.modified;
+            const created = this.created;
+            const converted = this.converted;
+            const data = {userid, modified, created, converted};
 
             // Generate SQL statement - using helper for dynamic parameter injection
-            const statement = pgp.helpers.insert(data, null, 'cart') + 'RETURNING *';
+            const statement = pgp.helpers.insert(data, null, 'carts') + 'RETURNING *';
             // return statement;
             // Execute SQL statment
             const result = await db.query(statement);
@@ -33,7 +37,7 @@ module.exports = class cartModel{
                 return result.rows[0];
             }
 
-            return result;
+            return null;
 
         } catch(err) {
             throw new Error(err);
@@ -49,16 +53,16 @@ module.exports = class cartModel{
     static async findByUser(userId) {
         
         try{
-
+            const id = userId;
             //Generate SQL statement
-            const statement = `SELECT * FROM cart WHERE user_id = $1`;
-            const values = userId;
+            const statement = `SELECT * FROM carts WHERE userid = $1`;
+            const values = [id];
 
             //Execute SQL statement
             const results = await db.query(statement, values);
 
             if (results.rows?.length){
-                return results.rows[0]
+                return results.rows[0];
             }
 
             return null;

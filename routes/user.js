@@ -8,6 +8,7 @@ module.exports = (app) => {
 
   app.use('/users', router);
 
+  //Get all users
   router.get('/', async(req, res, next) =>{
     try{
 
@@ -19,6 +20,7 @@ module.exports = (app) => {
     }
   });
 
+  //Get user by id
   router.get('/:userId', async (req, res, next) => {
 
     try {
@@ -30,7 +32,8 @@ module.exports = (app) => {
       next(err);
     }
   });
-
+  
+  //Update user based on id
   router.put('/:userId', async (req, res, next) => {
     try {
       const { userId } = req.params;

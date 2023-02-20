@@ -4,6 +4,8 @@ const router = express.Router();
 // Instantiate Services
 const AuthService = require('../services/AuthService');
 const AuthServiceInstance = new AuthService();
+const UserService = require('../services/userService');
+const UserModelInstance = new UserService();
 
 module.exports = (app, passport) => {
 
@@ -35,10 +37,21 @@ module.exports = (app, passport) => {
     });
 
     //Current user
-    router.get('/', (req, res, next) => {
-        const user = req.user ? req.user : 'No user logged on at the moment.';
-        res.status(200).send(user);
-    })
+    router.get('/', async (req, res, next) => {
+        const user = req.user ? req.user : null;
+        if(!user){
+            res.status(200).send('No user logged on.');
+        }else{
+            const response = await UserModelInstance.get(user.id);
+            res.status(200).json({
+                current_user: {
+                    name: response.name,
+                    username: response.username
+                }
+            });
+        }
+        
+    });
   
     // Login Endpoint
     router.post('/login', passport.authenticate('local'), async(req, res, next) =>{

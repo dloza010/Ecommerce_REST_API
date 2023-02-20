@@ -1,23 +1,27 @@
 const express = require('express');
 const router = express.Router();
-const cartService = require('../services/cartService')
-const cartServiceInstance = new cartService()
+const cartService = require('../services/cartService');
+const cartServiceInstance = new cartService();
+const UserService = require('../services/userService');
+const userServiceInstance = new UserService();
 
 module.exports = (app, passport) =>{
 
     app.use('/carts', router);
 
-    // returns cart of current user
+    // returns carts of current user
     router.get('/mine', async (req, res, next) => {
+        const {id} = req.user;
         try{
 
-            const id = req.user;
+            // const id = req.user;
 
             const response = await cartServiceInstance.loadCart(id)
-            console.log(response);
+            
             res.status(200).send(response)
 
         }catch(err){
+            console.log(err);
             throw new Error(err)
         }
 
@@ -25,12 +29,17 @@ module.exports = (app, passport) =>{
 
     //creates a cart for current user
     router.post('/mine', async (req, res, next) => {
+        const {id} = req.user;
         try{
 
-            const id = req.user;
-
+            // const id = req.user;
+            // console.log(id);
             const response = await cartServiceInstance.create(id);
-            res.status(200).send(response);
+            const user = await userServiceInstance.get(id);
+            res.status(200).json({
+                message: `New cart has been created for ${user.name}`,
+                cart: response
+            });
 
         }catch(err){
             console.log(err);
@@ -40,12 +49,11 @@ module.exports = (app, passport) =>{
 
     //adds new items for current user's cart
     router.post('/mine/items', async (req, res, next) => {
+        const {id} = req.user;
+        const {data} = req.body;
         try{
 
-            const userid = req.user;
-            const data = req.body;
-
-            const response = await cartServiceInstance.addItem(userid, data)
+            const response = await cartServiceInstance.addItem(id, data)
             res.status(200).send(response)
 
         }catch(err){
