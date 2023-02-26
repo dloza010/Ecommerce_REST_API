@@ -1,5 +1,7 @@
 const db = require('../db')
-const pgb = require('pg-promise')({capSQL: true})
+const pgp = require('pg-promise')({capSQL: true})
+const moment = require('moment');
+const OrderItem = require('./orderItem');
 
 module.exports = class orderModel{
 
@@ -9,7 +11,7 @@ module.exports = class orderModel{
         this.modified = moment.utc().toISOString();
         this.status = data.status || 'PENDING';
         this.total = data.total || 0;
-        this.userId = data.userId || null;
+        this.userid = data.userid || null;
     };
 
     /**
@@ -20,24 +22,29 @@ module.exports = class orderModel{
         try{
 
             //use spread(...) syntax to get all of the class properties
-            const {id, ...order} = this;
+            const {items, ...order} = this;
 
             //Generate SQL statement - using helper for dynamic parameter injection
-            const statement = pgb.helpers.insert(order, null, 'orders') + 'RETURNING *';
+            const statement = pgp.helpers.insert(order, null, 'orders') + 'RETURNING *';
             
             //Execute SQL statement
             const results = await db.query(statement);
 
             if(results.rows?.length){
-                Object.assign(this, results.rows[0])
+                Object.assign(this, results.rows[0]);
                 return results.rows[0]
             }
 
             return null;
 
         }catch(err){
+        
             throw new Error(err)
         }
+    }
+
+    async addItems(items){
+        this.items = items.map(item => new OrderItem(item));
     }
 
     /**
@@ -57,9 +64,9 @@ module.exports = class orderModel{
             const result = await db.query(statement);
       
             if (result.rows?.length) {
-              return result.rows[0];
+                Object.assign(this, result.rows[0]);
+                return this;
             }
-      
             return null;
       
           } catch(err) {
@@ -78,15 +85,15 @@ module.exports = class orderModel{
         try{
 
             //Generate SQL statement
-            const statement = `SELECT * FROM orders WHERE user_id = $1`;
-            const values = id;
+            const statement = `SELECT * FROM orders WHERE userid = $1`;
+            const values = [id];
 
             //Execute SQL statement
             const results = await db.query(statement, values);
             if(results.rows?.lenght){
                 return results.rows
             }
-
+            return 'None found';
             return null
 
         }catch(err){

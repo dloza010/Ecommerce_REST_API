@@ -35,23 +35,24 @@ module.exports = class cartItemMode{
      * @return {Object|null}      [Updated cart item]
      */
     static async update(id, data) {
+        const {cartItemId} = id;
         try {
-
-        // Generate SQL statement - using helper for dynamic parameter injection
-        const condition = pgp.as.format('WHERE id = ${id} RETURNING *', { id });
-        const statement = pgp.helpers.update(data, null, 'cartitems') + condition;
+            
+            // Generate SQL statement - using helper for dynamic parameter injection
+            const condition = pgp.as.format(` WHERE id = ${cartItemId} RETURNING *`);
+            const statement = pgp.helpers.update(data, null, 'cartitems') + condition;
     
-        // Execute SQL statment
-        const result = await db.query(statement);
-
-        if (result.rows?.length) {
-            return result.rows[0];
-        }
-
-        return null;
+            // Execute SQL statment
+            const result = await db.query(statement);
+        
+            if (result.rows?.length) {
+                return result.rows[0];
+            }
+            
+            return null;
 
         } catch(err) {
-        throw new Error(err);
+                throw new Error(err);
         }
     };
 
@@ -79,7 +80,7 @@ module.exports = class cartItemMode{
         if (result.rows?.length) {
             return result.rows;
         }
-        
+        console.log(values);
         return [];
 
         } catch(err) {
@@ -101,10 +102,10 @@ module.exports = class cartItemMode{
                             WHERE id = $1
                             RETURNING *`;
         const values = [id];
-    
+        
         // Execute SQL statment
         const result = await db.query(statement, values);
-
+        
         if (result.rows?.length) {
             return result.rows[0];
         }

@@ -21,7 +21,6 @@ module.exports = (app, passport) =>{
             res.status(200).send(response)
 
         }catch(err){
-            console.log(err);
             throw new Error(err)
         }
 
@@ -42,8 +41,7 @@ module.exports = (app, passport) =>{
             });
 
         }catch(err){
-            console.log(err);
-            throw new Error(err)
+            next(err);
         }
     });
 
@@ -51,13 +49,15 @@ module.exports = (app, passport) =>{
     router.post('/mine/items', async (req, res, next) => {
         const {id} = req.user;
         const {data} = req.body;
+        
         try{
 
-            const response = await cartServiceInstance.addItem(id, data)
+            
+            const response = await cartServiceInstance.addItem(id, req.body);
             res.status(200).send(response)
-
+            
         }catch(err){
-            throw new Error(err)
+            next(err);
         }
     });
 
@@ -65,28 +65,38 @@ module.exports = (app, passport) =>{
     router.put('/mine/items/:cartItemId', async (req, res, next) => {
         try{
 
-            const cartItemid = req.params;
-            const data = req.body;
-
-            const response = await cartServiceInstance.updateItem(cartItemid, data)
+            const response = await cartServiceInstance.updateItem(req.params, req.body);
             res.status(200).send(response)
 
         }catch(err){
-            throw new Error(err)
+            console.log(err);
+            next(err);
         }
     })
 
     //deletes items in current user's cart
     router.delete('/mine/items/:cartItemId', async (req, res, next) => {
+        console.log(req.params);
         try{
 
-            const cartItemId = req.user;
+            const {cartItemId} = req.params;
+            const response = await cartServiceInstance.deleteItem(cartItemId);
             
-            const response = await cartServiceInstance.deleteItem(cartItemId)
             res.status(200).send(response)
 
         }catch(err){
+            next(err);
+        }
+    })
 
+    //checks out cart and make an order
+    router.post('/mine/checkout', async (req, res, next) => {
+        const {id} = req.user;
+        try{
+            const response = await cartServiceInstance.checkout(id, req.body);
+            res.status(200).send(response);
+        }catch(err){
+            next(err);
         }
     })
 }

@@ -12,9 +12,7 @@ module.exports = (app, passport) => {
     router.get('/', async (req, res, next) => {
         try{
 
-            const id = req.user;
-
-            const response = await orderServiceInstance.list(id)
+            const response = await orderServiceInstance.list(req.id)
             res.status(200).send(response)
 
         }catch(err){

@@ -1,6 +1,6 @@
 const db = require('../db')
-const pgb = require('pg-promise')({capSQL: true})
-
+const pgp = require('pg-promise')({capSQL: true})
+const moment = require('moment');
 module.exports = class orderItemModel{
 
     constructor(data = {}) {

@@ -9,7 +9,7 @@ module.exports = class cartModel{
         this.created = data.created || moment.utc().toISOString();
         this.converted = data.converted || false;
         // this.isActive = data.isActive || true;
-        this.items = data.items || [];
+        
     };
 
     /**
