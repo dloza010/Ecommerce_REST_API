@@ -1,12 +1,11 @@
 module.exports = {
-    PORT: 4000,
-    DB:{
-        PGUSER: 'david',
-        PGHOST: 'localhost',
-        PGPASSWORD: 'Felipe171!!$%$',
-        PGDATABASE: 'Ecommerce_REST_API',
-        PGPORT: 5432
+    PORT: process.env.PORT,
+    DB: {
+      PGHOST: process.env.PGHOST,
+      PGUSER: process.env.PGUSER,
+      PGDATABASE: process.env.PGDATABASE,
+      PGPASSWORD: process.env.PGPASSWORD,
+      PGPORT: process.env.PGPORT
     },
-    SESSION_SECRET: 'alphabravo5980'
-
+    SESSION_SECRET: process.env.SESSION_SECRET
 }
