@@ -19,7 +19,7 @@ You can use various HTTP clients such as [Postman](https://www.postman.com/) or 
 
 **Note:** Some endpoints are protected and require authentication.  In order to properly access these endpoints, you will need to have a session cookie present when making your request.  This is accessed by hitting the `/auth/login` endpoint first.  HTTP clients will automatically store cookies and send them with subsequent requests.
 
-## Resources
+<!-- ## Resources
 - [REST Architecture](https://www.codecademy.com/articles/what-is-rest)
 - [Setting up Postman](https://learning.postman.com/docs/getting-started/settings/)
 - [Using pgAdmin](https://www.pgadmin.org/docs/pgadmin4/development/getting_started.html)
@@ -29,4 +29,4 @@ You can use various HTTP clients such as [Postman](https://www.postman.com/) or 
 ## Options for Extension
 - Add additional API endpoints (endpoints for categories, addresses, etc)
 - Add ability to maintain multiple carts per user
-- Add ability to interact with the API as a guest
+- Add ability to interact with the API as a guest -->
